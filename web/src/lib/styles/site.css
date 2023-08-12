@@ -1,0 +1,95 @@
+/*!
+ * Coles Group - Rocket Design System
+ */
+ html {
+    box-sizing: border-box;
+}
+
+*, *::before, *::after {
+    box-sizing: inherit;
+}
+
+body {
+    font-size: 12px;
+    font-family: "Century Gothic", Arial, sans-serif;
+    line-height: 1.6;
+    margin-bottom: 4em;
+}
+
+table {
+    width: 100%;
+}
+
+tr:hover td {
+    background-color: #f8f8f8;
+}
+
+.text-center {
+    text-align: center;
+}
+
+a.rocket__button {
+    text-decoration:none;
+    color:white;
+}
+
+p{
+    margin-bottom: 1em;
+}
+/*
+    Header
+*/
+body{
+    padding-bottom: 1em;
+    margin-bottom: 1em;
+}
+
+    body .body-header {
+        padding: 0.5em;
+        padding-left: 1.5em;
+        padding-right: 1.5em;
+        background-color: #424242;
+        border-bottom: 1px solid #e8e8e8;
+        min-height: 35px;
+    }
+
+    
+.movie-tile{
+    margin:10px;
+    padding-top: 10px;
+    cursor:pointer;
+}
+
+.card-body{
+    padding: 5px;
+}
+
+.thumbnail{
+   width: -webkit-fill-available;
+}
+
+
+.movie-list-page .card-title{
+    font-size: 12px;
+}
+
+.movie-container{
+    width: 80%;
+    margin: auto;
+    margin-top: 2%;
+}
+
+.movie-list-page .card:hover{
+    border: 2px solid #949494;
+    background-color: #ECECEC;
+}
+
+.card-block{
+    padding: 10px;
+}
+
+.backlink {
+    cursor:pointer;
+    color:blue;
+    text-decoration:underline;
+}
