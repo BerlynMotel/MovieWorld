@@ -16,6 +16,7 @@ const MovieDetails =({
     movieId
   }: DetailsProps)  => {
     const [isFetchingData, setIsFetchingData] = useState(false);
+    const [responseStatus, setResponseStatus] = useState("");
     const [isFetchingDataSuccessful, setIsFetchingDataSuccessful] = useState(true);
     const [movie, setMovie] = useState<MovieData>();
 
@@ -26,6 +27,7 @@ const MovieDetails =({
             setMovie(result);
         })
         .catch(function (error) {
+            setResponseStatus(error.response.status);
             setIsFetchingDataSuccessful(false);
         })
         .finally(() => {
@@ -40,6 +42,7 @@ const MovieDetails =({
             setMovie(result);
         })
         .catch(function (error) {
+            setResponseStatus(error.response.status);
             setIsFetchingDataSuccessful(false);
         })
         .finally(() => {
@@ -73,7 +76,7 @@ const MovieDetails =({
                         <p className="card-text"><b>Writer:</b> {movie?.Writer}</p>
                         <p className="card-text"><b>Actors:</b> {movie?.Actors}</p>
                         <p className="card-text"><b>Year:</b> {movie?.Year}</p>
-                        <p className="card-text"><b>Released:</b> {movie?.Released.toDateString()}</p>
+                        <p className="card-text"><b>Released:</b> {movie?.Released.toString().substring(0, 10)}</p>
                         <p className="card-text"><b>Rated:</b> {movie?.Rated}</p>
                         <p className="card-text"><b>Genre:</b> {movie?.Genre}</p>
                         <p className="card-text"><b>Price:</b> {movie?.Price}</p>
@@ -95,9 +98,15 @@ const MovieDetails =({
                 </div>
             }
 
-            {!isFetchingData && !isFetchingDataSuccessful &&
+            {!isFetchingData && !isFetchingDataSuccessful && responseStatus != "404" &&
                 <div className="alert alert-danger" role="alert">
                     Error fetching movie details. Please try again later.
+                </div>
+            }  
+
+            {!isFetchingData && !isFetchingDataSuccessful && responseStatus == "404" &&
+                <div className="alert alert-warning" role="alert">
+                    Selected movie cannot be found.
                 </div>
             }   
         </>

@@ -6,14 +6,14 @@ namespace movie.application.Features.FilmWorld.GetFilmWorldMoviesQuery;
 
 public class GetFilmWorldMoviesQueryHandler : IQueryHandler<GetFilmWorldMoviesQuery, MovieList>
 {
-    private readonly ICinemaWorldService _cinemaWorldService;
-    public GetFilmWorldMoviesQueryHandler(ICinemaWorldService cinemaWorldService)
+    private readonly IFilmWorldService _filmWorldService;
+    public GetFilmWorldMoviesQueryHandler(IFilmWorldService filmWorldService)
     {
-        _cinemaWorldService= cinemaWorldService;
+        _filmWorldService = filmWorldService;
     }
     public async Task<MovieList> Handle(GetFilmWorldMoviesQuery request, CancellationToken cancellationToken)
     {
         //Note: if there's any condition or processing needed for request param. Put it here.
-        return await _cinemaWorldService.GetMovies();
+        return await _filmWorldService.GetMovies();
     }
 }

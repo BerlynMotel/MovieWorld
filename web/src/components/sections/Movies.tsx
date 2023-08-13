@@ -32,7 +32,6 @@ const Movies =({
             setCinemaMovies(result.Movies);
         })
         .catch(function (error) {
-            console.log("cinema error");
             setIsFetchingCinemaDataSuccessful(false);
         })
         .finally(() => {
@@ -47,27 +46,20 @@ const Movies =({
             setFilmMovies(result.Movies);
         })
         .catch(function (error) {
-            console.log("film error");
             setIsFetchingFilmDataSuccessful(false);
         })
         .finally(() => {
             setIsFetchingData(false);
-            setIsFetchingDataSuccessful(isFetchingCinemaDataSuccessful && isFetchingFilmDataSuccessful);
+            setIsFetchingDataSuccessful(isFetchingCinemaDataSuccessful || isFetchingFilmDataSuccessful);
 
             PopulateMovies();
         });
     }
 
     const PopulateMovies = () => {
-        if(isFetchingCinemaDataSuccessful && !isFetchingFilmDataSuccessful) {
-            setMovies(cinemamovies);
-        }
-        else if(!isFetchingCinemaDataSuccessful && isFetchingFilmDataSuccessful) {
-            setMovies(filmmovies);
-        }
-        else{
-            setMovies([...filmmovies, ...cinemamovies]);
-        }
+        var c = [...cinemamovies, ...filmmovies];
+        c = c.sort((a, b) => (a.Year < b.Year) ? 1 : -1);
+        setMovies(c);
     }
 
     const onMovieClick = (id :string, type :MovieType) => {
@@ -77,14 +69,14 @@ const Movies =({
     }
 
     useEffect(() => {
-        GetCinemaMovies();
-    }, []);
+        if(movies.length === 0) GetCinemaMovies();
+    }, [isFetchingDataSuccessful, movies]);
 
     return (
         <>
             <div className="row movie-list-page">
                 {
-                    isFetchingDataSuccessful && !isFetchingData && movies && movies.sort((a, b) => (a.Year > b.Year) ? 1 : -1).map((val) => (
+                    isFetchingDataSuccessful && !isFetchingData && movies && movies.map((val) => (
                         <div className="col-md-2 movie-tile card" key={val.ID} onClick={() =>onMovieClick(val.ID, val.Origin)}>
                             <img className="card-img-top" src={val.Poster} />
                             <div className="card-body">
