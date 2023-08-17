@@ -16,8 +16,7 @@ const Movies =({
     onSelectedMovie,
     onSetSelectedMovieType
   }: DetailsProps)  => {
-    const [isFetchingData, setIsFetchingData] = useState(false);
-    const [isFetchingDataSuccessful, setIsFetchingDataSuccessful] = useState(true);
+    const [isFetchingData, setIsFetchingData] = useState<boolean>();
     const [isFetchingCinemaDataSuccessful, setIsFetchingCinemaDataSuccessful] = useState(true);
     const [isFetchingFilmDataSuccessful, setIsFetchingFilmDataSuccessful] = useState(true);
     const [movies, setMovies] = useState<Movie[]>([]);
@@ -50,8 +49,6 @@ const Movies =({
         })
         .finally(() => {
             setIsFetchingData(false);
-            setIsFetchingDataSuccessful(isFetchingCinemaDataSuccessful || isFetchingFilmDataSuccessful);
-
             PopulateMovies();
         });
     }
@@ -70,13 +67,13 @@ const Movies =({
 
     useEffect(() => {
         if(movies.length === 0) GetCinemaMovies();
-    }, [isFetchingDataSuccessful, movies]);
+    }, [movies]);
 
     return (
         <>
             <div className="row movie-list-page">
                 {
-                    isFetchingDataSuccessful && !isFetchingData && movies && movies.map((val) => (
+                    (isFetchingCinemaDataSuccessful || isFetchingFilmDataSuccessful) && !isFetchingData && movies && movies.map((val) => (
                         <div className="col-md-2 movie-tile card" key={val.ID} onClick={() =>onMovieClick(val.ID, val.Origin)}>
                             <img className="card-img-top" src={val.Poster} />
                             <div className="card-body">
@@ -96,7 +93,7 @@ const Movies =({
                 </div>
             }
 
-            {!isFetchingData && !isFetchingDataSuccessful &&
+            {!isFetchingData && !(isFetchingCinemaDataSuccessful || isFetchingFilmDataSuccessful) &&
                 <div className="alert alert-danger" role="alert">
                     Error fetching movies. Please try again later.
                 </div>
